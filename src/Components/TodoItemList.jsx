@@ -1,9 +1,13 @@
+import moment from 'moment';
 import React, { useEffect } from 'react';
 import { IoMdAlarm } from 'react-icons/io';
+import { MdEdit, MdDelete } from 'react-icons/md';
 
 const TodoItemList = ({
   todo,
   setAllTodos,
+  editTodoButton,
+  deleteTodoButton,
 }) => {
   return (
     <div className="flex flex-col">
@@ -32,13 +36,30 @@ const TodoItemList = ({
             </div>
           </div>
         </div>
-        <span
-          className={`h-3 w-3 rounded-full border border-black-500 ${
-            todo?.completed ? 'bg-green-500' : 'bg-purple-500'
-          } mr-4`}
-        ></span>
+        <div className="flex items-center mr-4 gap-1">
+          <span
+            className={`h-3.5 w-3.5 rounded-full border border-black-500 ${
+              todo?.completed === true
+                ? 'bg-green-600'
+                : moment(todo?.time).isBefore(moment())
+                ? 'bg-red-600'
+                : 'bg-purple-600'
+            }`}
+          ></span>
+          <MdEdit
+            className="cursor-pointer"
+            onClick={() => {
+              editTodoButton(todo);
+            }}
+          />
+          <MdDelete
+            className="cursor-pointer"
+            onClick={() => {
+              deleteTodoButton(todo);
+            }}
+          />
+        </div>
       </div>
-
       <hr className="ml-10 mt-3 mb-3" />
     </div>
   );
